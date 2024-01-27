@@ -1,0 +1,138 @@
+:root{
+	--color-bg: rgb( 0 0 0);
+	--color-txt: rgb( 255 255 255);
+	--color-petal: rgba(150,200,255,0.6);
+}
+
+@font-face {
+	font-family: Ferrite;
+	src:
+	  url("fonts/ferrite/FerriteCoreDX-Black.otf") format("opentype"),
+	  url("fonts/ferrite/FerriteCoreDX-Display.otf") format("opentype"),
+	  url("fonts/ferrite/FerriteCoreDX-Light.otf") format("opentype"),
+	  url("fonts/ferrite/FerriteCoreDX-Medium.otf") format("opentype"),
+	  url("fonts/ferrite/FerriteCoreDX-Regular.otf") format("opentype"),
+  }
+
+
+@font-face {
+	font-family: "Fantasma";
+	src:
+	  url("fonts/Fantasma-Regular.ttf") format("truetype");
+  }
+
+
+/*
+@font-face {
+	font-family: PicNic;
+	src:
+		url(https://gitlab.com/mariellenils/PicNic/-/blob/main/fonts/webfonts/PicNic-Regular.woff) format(woff);
+}
+*/
+
+
+[data-mode="beforedawn"]{
+	--color-bg: rgb(40 30 100);
+}
+
+[data-mode="day"]{
+	--color-bg: rgb(250 250 255);
+	--color-txt: rgb(100 100 100);
+}
+
+[data-mode="afterdusk"]{
+	--color-bg: rgb(0 0 0);
+}
+body{
+	display: flex;
+	flex-direction: column;
+	/*background-image: url("http://hyperreal.org/raves/spirit/images/smoverl.gif");*/
+	background: rgb(255,94,94);
+	background: radial-gradient(circle, rgba(255,94,94,1) 0%, rgba(52,52,255,1) 15%, rgba(85,86,229,1) 15%, rgba(203,208,134,1) 23%, rgba(176,180,156,1) 25%, rgba(249,255,97,1) 33%, rgba(89,208,228,1) 44%, rgba(1,190,241,1) 44%, rgba(116,216,206,1) 51%, rgba(52,255,0,1) 52%, rgba(255,255,0,1) 71%, rgba(255,248,86,1) 71%, rgba(255,188,69,1) 80%, rgba(255,77,220,1) 80%, rgba(255,77,220,1) 96%, rgba(255,85,144,1) 96%);
+	margin: 0;
+	height: 100vh;
+	align-items: center;
+	text-align: center;
+}
+
+a {
+	font-family: Ferrite;
+}
+
+main {
+	max-width: 100%;
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+}
+
+.columns {
+	width: 100%;
+	margin: auto 5vw;
+	justify-content: center;
+}
+
+.flyer-box {
+	max-height: 100%;
+	max-width: 100%;
+	font-family: Fantasma;
+	background: black;
+	color: white;
+	padding: 3px 6px;
+}
+
+button{
+	font-family: Ferrite;
+	width: fit-content;
+	font-size: 5em;
+	color: black;
+	border: 5px groove black;
+	background-image: url(http://hyperreal.org/raves/spirit/images/smoverl.gif);
+	box-shadow: 0 0 3rem 2rem pink;
+}
+
+button:hover, :focus{
+	filter: hue-rotate(120deg);
+	color: white;
+}
+
+.rave-now{
+	font-family: Ferrite;
+	font-size: 4vw;
+	color: white;
+}
+
+[data-rave="open"] #flower{
+	transform: scale(1) rotate(0deg);
+}
+
+[data-rave="open"] .flyer-box{
+	display: block;
+}
+
+[data-rave="closed"] .flyer-box{
+	display: none;
+}
+
+[data-rave="open"] .noRave {
+	display: none;
+}
+
+[data-rave="closed"] .noRave{
+	display: block;
+}
+
+@media screen and (max-width: 400px) {
+	main {
+		max-width: 95%;
+		display: flex;
+		flex-direction: column;
+		margin: auto;
+	}
+	
+	.columns {
+		width: 100%;
+		margin: auto;
+		justify-content: center;
+	}
+}
