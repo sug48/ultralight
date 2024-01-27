@@ -8,18 +8,13 @@ const body = document.body;
 /*---------------------------------------------------
 RAVE NOW  displays a flyer for the rave when, and only when, that rave is happening by querying time on the client side. 
 
-It treats an Are.na channel like a database, making a FETCH request to to that channel via Are.na's API. To minimize data, the call will only return items uploaded within the past 90 days.
+It treats an Are.na channel like a database, making a FETCH request to to that channel via Are.na's API. To minimize data, the call will only return the 20 latest-added items based on the position parameter.
 
-This script takes advantage of the API returning a given block's description field in markdown. For a block to appear on this site, it must be an image and it's description must adhere to the format of the below template. Fields required unless marked optional.
+This parse's the blocks title to get the event name, start date-time, and end date-time. It also takes advtanve of Are.na's API returning a block's description text as formatted HTML. You can use Github-flavored Markdown in those descriptions, which will give you control over the presented text on this site.
 
----
-event: name
-start: DD/MM/YYYY 24:00 TZ
-end: DD/MM/YYYY 24:00 TZ
-url: url (optional)
----
+Block titles must be formatted with "from" and "to" using the template:
 
-Event description text (optional)
+Event Name from YYYY/MM/DD 24:00 to YYYY/MM/DD 24:00
 
 ---------------------------------------------------*/
 
@@ -31,7 +26,7 @@ let ravesNow = [];
 let raveNow = false;
 let howManyRavesNow;
 
-// API call for 20 most recent blocks in a channel
+// API call
 async function getCollection() {
 	const endpoint = "https://api.are.na/v2/channels/" + channelSlug + "/contents?page=1&per=20&sort=positiont&direction=desc";
 
@@ -62,9 +57,6 @@ async function getCollection() {
 			"end": titleSplit[1],
 			"endISO": new Date(titleSplit[1]).toISOString(),
 		}
-		
-		//parse JSON in block description
-		//const description = JSON.parse(thisFlyer.description)
 
 		//if rave is happening now, report it and log data
 		if ( raveStats.startISO <= nowISO && raveStats.endISO >= nowISO) {
@@ -75,28 +67,30 @@ async function getCollection() {
 				"start": raveStats.startISO,
 				"end": raveStats.endISO,
 				"info": thisFlyer.description,
-				"img": thisFlyer.image.original.url
+				"img": thisFlyer.image.original.url,
 			});
 		};
-	}
-	console.log(howManyRavesNow, ravesNow, raveNow);
 
-	if (raveNow != true) {
-		howManyRavesNow = ravesNow.push({
-			"title": "",
-			"start": "",
-			"end": "",
-			"info": "",
-			"img": ""
-		});
+		if ( raveNow != true) {
+			howManyRavesNow = ravesNow.push({
+				"title": "",
+				"start": "",
+				"end": "",
+				"info": "",
+				"img": "/",
+			});
+		}
 	}
-
-	//add our data into HTML placeholders
-	displayData(now, ravesNow);
 
 	//check if Rave
-	updateRave(now, raveNow);
+	updateRave( raveNow );
+	console.log('ran update', raveNow);
 
+	// //add our data into HTML placeholders
+	displayData( ravesNow );
+	console.log('logged data', ravesNow);
+
+	console.log('done');
 	return {howManyRavesNow, ravesNow, raveNow};
 }
 
@@ -104,12 +98,12 @@ async function getCollection() {
 /*---------------------------------------------------
 Our functions for using the data with our HTML elements
 ------------------------------------------------------*/
-function displayData(now, ravesNow){
+function displayData(ravesNow){
 	ravesNow = ravesNow[0];
 
 	// let nowDiv = document.getElementById('now');
 	// nowDiv.innerText = formatDate( now );
-	if (raveNow == true){
+	//if (raveNow == true){
 		let flyerImg = document.getElementById('flyerImg');
 		flyerImg.src = ravesNow.img;
 		flyerImg.alt = ravesNow.title;
@@ -119,7 +113,7 @@ function displayData(now, ravesNow){
 	
 		let raveTitleDiv = document.getElementById('raveTitle');
 		raveTitleDiv.innerText = ravesNow.title;
-	}
+	//}
 
 
 	// let raveStart = document.getElementById('raveStart');
@@ -132,14 +126,12 @@ function displayData(now, ravesNow){
 	// sunriseTimeReport.innerText = sunriseTime;
 }
 
-function updateRave(now, raveNow){
-	// const raveStart = new Date(ravesNow.start).toISOString();
-	// const raveEnd = new Date(ravesNow.end).toISOString();
+function updateRave( raveNow ){
 	const statusDiv = document.getElementById('status');
 	if( raveNow == true ){
 		body.dataset.rave = "open";
 		statusDiv.innerText = "You can rave now";
-	}else{
+	}else {
 		body.dataset.rave = "closed";
 		statusDiv.innerText = "No";
 	}
@@ -148,7 +140,7 @@ function updateRave(now, raveNow){
 	if( raveNow == true ){
 		body.dataset.rave = "open";
 		statusDetailDiv.innerText = "";
-	}else{
+	}else {
 		body.dataset.rave = "closed";
 		statusDetailDiv.innerText = "Check back soon :)";
 	}
