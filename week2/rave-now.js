@@ -112,26 +112,15 @@ Our functions for using the data with our HTML elements
 function displayData(ravesNow){
 	ravesNow = ravesNow[0];
 
-	// let nowDiv = document.getElementById('now');
-	// nowDiv.innerText = formatDate( now );
-	//if (raveNow == true){
-		let flyerImg = document.getElementById('flyerImg');
-		flyerImg.src = ravesNow.img;
-		flyerImg.alt = ravesNow.title;
-	
-		let raveInfoDiv = document.getElementById('raveInfo');
-		raveInfoDiv.innerText = ravesNow.info;
-	
-		let raveTitleDiv = document.getElementById('raveTitle');
-		raveTitleDiv.innerText = ravesNow.title;
-	//}
+	let flyerImg = document.getElementById('flyerImg');
+	flyerImg.src = ravesNow.img;
+	flyerImg.alt = ravesNow.title;
 
+	let raveInfoDiv = document.getElementById('raveInfo');
+	raveInfoDiv.innerText = ravesNow.info;
 
-	// let raveStart = document.getElementById('raveStart');
-	// raveStart.innerText = ravesNow.start.toString();
-
-	// let raveEnd = document.getElementById('raveEnd');
-	// raveEnd.innerText = ravesNow.end.toString();
+	let raveTitleDiv = document.getElementById('raveTitle');
+	raveTitleDiv.innerText = ravesNow.title;
 
 	// let sunriseTimeReport = document.getElementById('sunriseTime');
 	// sunriseTimeReport.innerText = sunriseTime;
@@ -166,15 +155,6 @@ function updateDayMode(now, sunriseTime, sunsetTime){
 		body.dataset.mode = "afterdusk";
 	}
 }
-
-/*---------------------------------------------------
-Utility functions that help us calculate things
----------------------------------------------------*/
-// function hoursToMS( hours ){
-// 	// given a number of hours, returns the equivalent milliseconds
-// 	// hours * 60 min/hour * 60sec/min * 1000ms/sec
-// 	return hours * 60 * 60 * 1000;
-// }
 
 function formatDate( date ){
 	// see this reference for formatting options:
