@@ -131,7 +131,7 @@ function updateRave( raveNow ){
 	if( raveNow == true ){
 		body.dataset.rave = "open";
 		statusDiv.innerText = "You can rave now";
-	}else if ( raveNow == false ) {
+	}else {
 		body.dataset.rave = "closed";
 		statusDiv.innerText = "No";
 	}
