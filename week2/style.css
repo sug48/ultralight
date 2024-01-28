@@ -21,16 +21,6 @@
 	  url("fonts/Fantasma-Regular.ttf") format("truetype");
   }
 
-
-/*
-@font-face {
-	font-family: PicNic;
-	src:
-		url(https://gitlab.com/mariellenils/PicNic/-/blob/main/fonts/webfonts/PicNic-Regular.woff) format(woff);
-}
-*/
-
-
 [data-mode="beforedawn"]{
 	--color-bg: rgb(40 30 100);
 }
@@ -46,7 +36,6 @@
 body{
 	display: flex;
 	flex-direction: column;
-	/*background-image: url("http://hyperreal.org/raves/spirit/images/smoverl.gif");*/
 	background: rgb(255,94,94);
 	background: repeating-radial-gradient(circle farthest-corner at 20% 80%, rgba(255,94,94,1) 0%, rgba(52,52,255,1) 15%, rgba(85,86,229,1) 15%, rgba(203,208,134,1) 23%, rgba(176,180,156,1) 25%, rgba(249,255,97,1) 33%, rgba(89,208,228,1) 44%, rgba(1,190,241,1) 44%, rgba(116,216,206,1) 51%, rgba(52,255,0,1) 52%, rgba(255,255,0,1) 71%, rgba(255,248,86,1) 71%, rgba(255,188,69,1) 80%, rgba(255,77,220,1) 80%, rgba(255,77,220,1) 96%, rgba(255,85,144,1) 96%);
 	margin: 0;
@@ -96,7 +85,7 @@ button{
 	font-size: 5em;
 	color: black;
 	border: 5px groove black;
-	background-image: url(http://hyperreal.org/raves/spirit/images/smoverl.gif);
+	background-image: url("./smoverl.gif");
 	box-shadow: 0 0 3rem 2rem pink;
 }
 
