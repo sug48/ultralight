@@ -32,8 +32,6 @@ async function getCollection() {
 
 	const response = await fetch(endpoint);
 	let flyers = await response.json();
-	console.log("returned ", Object.keys(flyers).length);
-	console.log(Object.keys(flyers.contents).length, " flyers in ", flyers.contents);
 
 	flyers = flyers.contents;
 	console.log(flyers);
@@ -41,52 +39,65 @@ async function getCollection() {
 	for ( const flyer of Object.keys(flyers) ) {
 		const thisFlyer = flyers[flyer];
 
-		//split block title into date-time pairs
+		//check if block title include "from" and "to" to reject incorrectly formatted results. parse and log the block if it passes the test.
 		const blockTitle = thisFlyer.title;
-		let titleSplit = blockTitle.split(" from ");
-		const raveTitle = titleSplit[0].toString();
-		console.log(raveTitle);
-		const raveTime = titleSplit[1].toString();
-		console.log(raveTime);
-		titleSplit = raveTime.split(" to ");
-		console.log(titleSplit);
-		const raveStats = {
-			"title": raveTitle,
-			"start": titleSplit[0],
-			"startISO": new Date(titleSplit[0]).toISOString(),
-			"end": titleSplit[1],
-			"endISO": new Date(titleSplit[1]).toISOString(),
-		}
 
-		//if rave is happening now, report it and log data
-		if ( raveStats.startISO <= nowISO && raveStats.endISO >= nowISO) {
-			raveNow = true;
+		const regexFrom = new RegExp(' from ');
+		const regexTo = new RegExp(' to ');
 
-			howManyRavesNow = ravesNow.push({
-				"title": raveStats.title,
-				"start": raveStats.startISO,
-				"end": raveStats.endISO,
-				"info": thisFlyer.description,
-				"img": thisFlyer.image.original.url,
-			});
-		};
+		if ( regexFrom.test(blockTitle) == true && regexTo.test(blockTitle) == true ) {
+			
+			//parse block title
+			let titleSplit = blockTitle.split(" from ");
+			const raveTitle = titleSplit[0].toString();
+			console.log(raveTitle);
+			const raveTime = titleSplit[1].toString();
+			console.log(raveTime);
+			titleSplit = raveTime.split(" to ");
+			console.log(titleSplit);
+			const raveStats = {
+				"title": raveTitle,
+				"start": titleSplit[0],
+				"startISO": new Date(titleSplit[0]).toISOString(),
+				"end": titleSplit[1],
+				"endISO": new Date(titleSplit[1]).toISOString(),
+			}
 
-		if ( raveNow != true) {
-			howManyRavesNow = ravesNow.push({
-				"title": "",
-				"start": "",
-				"end": "",
-				"info": "",
-				"img": "/",
-			});
+			//log the block's data if it is happening now
+			if ( nowISO >= raveStats.startISO && nowISO <= raveStats.endISO ){
+				howManyRavesNow = ravesNow.push({
+					"title": raveStats.title,
+					"start": raveStats.startISO,
+					"end": raveStats.endISO,
+					"info": thisFlyer.description,
+					"img": thisFlyer.image.original.url,
+				})
+			}
 		}
 	}
 
-	//check if Rave
+
+	//checks if there is a rave now, and creates object with empty values if there is not so that the displayData() function doesn't break.
+	if ( ravesNow.length > 0 ) {
+		raveNow = true;
+		console.log(ravesNow.length, "raves now");
+		console.log("rave now?", raveNow);
+	} 
+	else {
+		howManyRavesNow = ravesNow.push({
+			"title": "",
+			"start": "",
+			"end": "",
+			"info": "",
+			"img": "/",
+		});
+	}
+
+	//check if rave
 	updateRave( raveNow );
 	console.log('ran update', raveNow);
 
-	// //add our data into HTML placeholders
+	// add our data into HTML placeholders
 	displayData( ravesNow );
 	console.log('logged data', ravesNow);
 
