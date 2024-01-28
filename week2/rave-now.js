@@ -19,7 +19,7 @@ Event Name from YYYY/MM/DD 24:00 to YYYY/MM/DD 24:00
 ---------------------------------------------------*/
 
 // Channel slug is the part of the URL after `https://are.na/username/`
-let channelSlug = "rave-now-test";
+let channelSlug = "tribute-to-the-essence-of-vibe";
 
 //rave data
 let ravesNow = [];
@@ -43,7 +43,7 @@ async function getCollection() {
 
 		//split block title into date-time pairs
 		const blockTitle = thisFlyer.title;
-		let titleSplit = blockTitle.split(": ");
+		let titleSplit = blockTitle.split(" from ");
 		const raveTitle = titleSplit[0].toString();
 		console.log(raveTitle);
 		const raveTime = titleSplit[1].toString();
@@ -131,7 +131,7 @@ function updateRave( raveNow ){
 	if( raveNow == true ){
 		body.dataset.rave = "open";
 		statusDiv.innerText = "You can rave now";
-	}else {
+	}else if ( raveNow == false ) {
 		body.dataset.rave = "closed";
 		statusDiv.innerText = "No";
 	}
